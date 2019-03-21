@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostCreateComponent implements OnInit {
 
+  entredValue = '';
   newPost = 'NO CONTENT';
 
   constructor() { }
@@ -15,7 +16,7 @@ export class PostCreateComponent implements OnInit {
   }
 
   onSavePost() {
-    this.newPost = 'The user\'s post';
+    this.newPost = this.entredValue;
   }
 
 }
