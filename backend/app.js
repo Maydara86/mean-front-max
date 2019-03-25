@@ -1,6 +1,18 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.post('/api/posts', (req, res, next) => {
+  const post = req.body;
+  console.log();
+  res.status(201).json({
+    message: 'post added successfully'
+  })
+})
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -25,7 +37,7 @@ app.use('/api/posts', (req, res, next) => {
       content: 'this is a post is comming from the server side'
     }
   ];
-  res.status(200).json({message: 'Posts fetched succesfully!', posts: posts});
+  res.status(200).json({message: 'Posts fetched successfully!', posts: posts});
 });
 
 module.exports = app;
