@@ -6,10 +6,13 @@ const Post = require('./models/post');
 
 const app = express();
 
-mongoose.connect("mongodb+srv://Maydara:tyYRRQcRGwF0i6WL@cluster0-tdent.mongodb.net/node-angular?retryWrites=true").then(() => {
-  console.log("Connected to database!");
-}).catch(() => {
-  console.log("Connection failed!");
+mongoose
+  .connect(
+    "mongodb+srv://Maydara:tyYRRQcRGwF0i6WL@cluster0-tdent.mongodb.net/node-angular?retryWrites=true"
+  ).then(() => {
+    console.log("Connected to database!");
+  }).catch(() => {
+    console.log("Connection failed!");
 });
 
 app.use(bodyParser.json());
@@ -37,23 +40,21 @@ app.post('/api/posts', (req, res, next) => {
   post.save();
   res.status(201).json({
     message: 'post added successfully'
-  })
-})
+  });
+});
 
 app.get('/api/posts', (req, res, next) => {
-  const posts = [
-    {
-    id: 'ffaj12',
-    title: 'Frist post from the server',
-    content: 'this is a post from the server side'
-    },
-    {
-      id: 'ffaj13',
-      title: 'Second post from the server',
-      content: 'this is a post is comming from the server side'
-    }
-  ];
-  res.status(200).json({message: 'Posts fetched successfully!', posts: posts});
+  Post.find().then(documents => {
+    res.status(200).json({
+      message: 'Posts fetched successfully!',
+      posts: documents
+    });
+  });
+});
+
+app.delete("api/posts", (req, res, next) => {
+  console.log(req.params.id);
+  res.status(200).json({ message: "Post deleted!" });
 });
 
 module.exports = app;
