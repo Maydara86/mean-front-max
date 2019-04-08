@@ -1,8 +1,9 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose'); //database password: tyYRRQcRGwF0i6WL
+const path = require("path");
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
-const postRoutes = require('./routes/posts');
+const postsRoutes = require("./routes/posts");
 
 const app = express();
 
@@ -17,6 +18,7 @@ mongoose
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/images", express.static(path.join("backend/images")));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -31,6 +33,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/posts", postRoutes);
+app.use("/api/posts", postsRoutes);
 
 module.exports = app;
